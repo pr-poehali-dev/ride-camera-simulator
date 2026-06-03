@@ -57,24 +57,24 @@ const attractions: Attraction[] = [
 const statusConfig = {
   working: {
     label: "Работает",
-    color: "text-green-600",
-    bg: "bg-green-50",
-    dot: "bg-green-500",
-    border: "border-green-200",
+    color: "text-white",
+    bg: "bg-gradient-to-r from-emerald-400 to-green-500",
+    dot: "bg-white",
+    icon: "CheckCircle",
   },
   maintenance: {
     label: "На техобслуживании",
-    color: "text-yellow-600",
-    bg: "bg-yellow-50",
-    dot: "bg-yellow-500",
-    border: "border-yellow-200",
+    color: "text-white",
+    bg: "bg-gradient-to-r from-amber-400 to-orange-400",
+    dot: "bg-white",
+    icon: "Wrench",
   },
   closed: {
     label: "Закрыт",
-    color: "text-red-500",
-    bg: "bg-red-50",
-    dot: "bg-red-500",
-    border: "border-red-200",
+    color: "text-white",
+    bg: "bg-gradient-to-r from-red-400 to-rose-500",
+    dot: "bg-white",
+    icon: "XCircle",
   },
 };
 
@@ -101,156 +101,173 @@ function AttractionDetail({
   const canBook = isWorking && isPremium;
 
   return (
-    <div className="flex flex-col h-full animate-fade-in">
+    <div className="flex flex-col h-full animate-fade-in bg-[#f4f4f8]">
       {/* Hero Image */}
-      <div className="relative h-64 flex-shrink-0 overflow-hidden">
+      <div className="relative h-72 flex-shrink-0 overflow-hidden rounded-b-[2rem]">
         <img
           src={attraction.image}
           alt={attraction.name}
           className="w-full h-full object-cover"
         />
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
 
         {/* Back button */}
         <button
           onClick={onBack}
-          className="absolute top-4 left-4 w-10 h-10 glass rounded-full flex items-center justify-center active:scale-95 transition-transform"
+          className="absolute top-5 left-4 w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center active:scale-95 transition-transform border border-white/30"
         >
           <Icon name="ArrowLeft" size={20} className="text-white" />
         </button>
 
         {/* Category badge */}
-        <div className="absolute top-4 right-4 px-3 py-1.5 glass rounded-full">
-          <span className="text-xs font-semibold text-white/90">
-            {attraction.category}
+        <div className="absolute top-5 right-4 px-3 py-1.5 bg-white/20 backdrop-blur-md rounded-full border border-white/30">
+          <span className="text-xs font-bold text-white tracking-wide">
+            {attraction.category.toUpperCase()}
           </span>
         </div>
 
-        {/* Title over image bottom */}
+        {/* Title + status pill over image */}
         <div className="absolute bottom-0 left-0 right-0 p-5">
-          <h1 className="font-display text-2xl font-bold text-white leading-tight">
+          <div
+            className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-2 ${status.bg}`}
+          >
+            <Icon name={status.icon} size={13} className="text-white" />
+            <span className="text-xs font-bold text-white">
+              {status.label}
+              {attraction.status === "maintenance" && attraction.maintenanceUntil
+                ? ` до ${attraction.maintenanceUntil}`
+                : ""}
+            </span>
+          </div>
+          <h1 className="font-display text-2xl font-bold text-white leading-tight drop-shadow-lg">
             {attraction.name}
           </h1>
         </div>
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto px-4 pt-4 pb-32 space-y-3">
+      <div className="flex-1 overflow-y-auto px-4 pt-4 pb-36 space-y-3">
 
-        {/* Status */}
-        <div
-          className={`flex items-center gap-3 p-4 rounded-2xl ${status.bg} border ${status.border} animate-scale-in`}
-        >
-          <div className="relative flex items-center justify-center w-8 h-8">
-            <div
-              className={`w-3 h-3 rounded-full ${status.dot} status-dot`}
-            />
-          </div>
-          <div>
-            <p className="text-xs text-gray-400 mb-0.5">Статус</p>
-            <p className={`font-semibold text-sm ${status.color}`}>
-              {status.label}
-              {attraction.status === "maintenance" &&
-                attraction.maintenanceUntil && (
-                  <span className="text-gray-400 font-normal">
-                    {" "}до {attraction.maintenanceUntil}
-                  </span>
-                )}
+        {/* Wait time + Restrictions row */}
+        <div className="grid grid-cols-3 gap-2.5 animate-scale-in">
+          {/* Wait time */}
+          <div className="col-span-1 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl p-3.5 flex flex-col gap-1">
+            <Icon name="Clock" size={18} className="text-white/80" />
+            <p className="text-[10px] text-white/70 font-medium mt-0.5">Ожидание</p>
+            <p className="text-sm font-bold text-white leading-tight">
+              {isWorking ? `~${attraction.waitTime} мин` : "—"}
             </p>
           </div>
-        </div>
-
-        {/* Wait time — only when working */}
-        {isWorking && (
-          <div className="flex items-center gap-3 p-4 rounded-2xl bg-violet-50 border border-violet-200 animate-scale-in delay-100">
-            <div className="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center">
-              <Icon name="Clock" size={16} className="text-[#8B5CF6]" />
-            </div>
-            <div>
-              <p className="text-xs text-gray-400 mb-0.5">Время ожидания</p>
-              <p className="font-semibold text-sm text-gray-800">
-                около {attraction.waitTime} мин
-              </p>
-            </div>
+          {/* Height */}
+          <div className="bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl p-3.5 flex flex-col gap-1">
+            <span className="text-lg leading-none">📏</span>
+            <p className="text-[10px] text-white/70 font-medium mt-0.5">Рост</p>
+            <p className="text-sm font-bold text-white leading-tight">
+              от {attraction.minHeight} см
+            </p>
           </div>
-        )}
-
-        {/* Restrictions */}
-        <div className="p-4 rounded-2xl bg-white border border-gray-100 shadow-sm animate-scale-in delay-200">
-          <p className="text-xs text-gray-400 mb-3 font-medium uppercase tracking-wider">
-            Ограничения
-          </p>
-          <div className="flex gap-3">
-            <div className="flex-1 flex items-center gap-2.5 p-3 bg-gray-50 rounded-xl">
-              <span className="text-xl">📏</span>
-              <div>
-                <p className="text-[11px] text-gray-400">Рост</p>
-                <p className="text-sm font-semibold text-gray-800">
-                  от {attraction.minHeight} см
-                </p>
-              </div>
-            </div>
-            <div className="flex-1 flex items-center gap-2.5 p-3 bg-gray-50 rounded-xl">
-              <span className="text-xl">⚖️</span>
-              <div>
-                <p className="text-[11px] text-gray-400">Вес</p>
-                <p className="text-sm font-semibold text-gray-800">
-                  до {attraction.maxWeight} кг
-                </p>
-              </div>
-            </div>
+          {/* Weight */}
+          <div className="bg-gradient-to-br from-pink-400 to-rose-500 rounded-2xl p-3.5 flex flex-col gap-1">
+            <span className="text-lg leading-none">⚖️</span>
+            <p className="text-[10px] text-white/70 font-medium mt-0.5">Вес</p>
+            <p className="text-sm font-bold text-white leading-tight">
+              до {attraction.maxWeight} кг
+            </p>
           </div>
         </div>
 
         {/* Ticket access */}
         <div
-          className={`p-4 rounded-2xl border animate-scale-in delay-300 ${
-            isPremium
-              ? "bg-gradient-to-r from-violet-50 to-pink-50 border-violet-200"
-              : "bg-white border-gray-100 shadow-sm"
-          }`}
+          className={`rounded-2xl overflow-hidden animate-scale-in delay-100`}
         >
-          <div className="flex items-start gap-3">
-            <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                isPremium ? "bg-violet-100" : "bg-gray-100"
-              }`}
-            >
-              <Icon
-                name={isPremium ? "Crown" : "Ticket"}
-                size={16}
-                className={isPremium ? "text-[#8B5CF6]" : "text-gray-400"}
-              />
-            </div>
-            <div className="flex-1">
-              <p className="text-xs text-gray-400 mb-0.5">Доступность</p>
-              {isPremium ? (
-                <p className="text-sm font-semibold text-[#8B5CF6]">
-                  Входит в ваш Premium-билет
-                </p>
-              ) : (
-                <div>
-                  <p className="text-sm font-semibold text-gray-500">
-                    Не входит в ваш билет
-                  </p>
-                  <button className="mt-2 text-xs font-semibold text-[#F97316] flex items-center gap-1 active:opacity-70 transition-opacity">
-                    Доплатить?
-                    <Icon name="ChevronRight" size={13} />
-                  </button>
+          {isPremium ? (
+            <div className="bg-gradient-to-r from-violet-500 via-purple-500 to-pink-500 p-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                  <Icon name="Crown" size={20} className="text-yellow-300" />
                 </div>
-              )}
+                <div>
+                  <p className="text-[11px] text-white/70 mb-0.5 font-medium">Доступность</p>
+                  <p className="text-sm font-bold text-white">
+                    Входит в ваш Premium-билет ✓
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="bg-white border border-gray-100 shadow-sm p-4">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center flex-shrink-0">
+                    <Icon name="Ticket" size={20} className="text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] text-gray-400 mb-0.5 font-medium">Доступность</p>
+                    <p className="text-sm font-semibold text-gray-700">
+                      Не входит в ваш билет
+                    </p>
+                  </div>
+                </div>
+                <button className="flex-shrink-0 bg-gradient-to-r from-orange-400 to-pink-500 text-white text-xs font-bold px-3 py-2 rounded-xl active:scale-95 transition-transform">
+                  Доплатить
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Status detail card (if not working) */}
+        {!isWorking && (
+          <div
+            className={`p-4 rounded-2xl animate-scale-in delay-200 ${
+              attraction.status === "maintenance"
+                ? "bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200"
+                : "bg-gradient-to-r from-red-50 to-rose-50 border border-red-200"
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              <div
+                className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                  attraction.status === "maintenance"
+                    ? "bg-amber-100"
+                    : "bg-red-100"
+                }`}
+              >
+                <Icon
+                  name={attraction.status === "maintenance" ? "Wrench" : "Ban"}
+                  size={18}
+                  className={
+                    attraction.status === "maintenance"
+                      ? "text-amber-500"
+                      : "text-red-500"
+                  }
+                />
+              </div>
+              <div>
+                <p className="text-xs text-gray-400 mb-0.5">Информация</p>
+                <p
+                  className={`text-sm font-semibold ${
+                    attraction.status === "maintenance"
+                      ? "text-amber-700"
+                      : "text-red-600"
+                  }`}
+                >
+                  {attraction.status === "maintenance"
+                    ? `Откроется в ${attraction.maintenanceUntil}`
+                    : "Аттракцион не работает сегодня"}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Bottom action buttons */}
-      <div className="fixed bottom-[72px] left-0 right-0 px-4 pb-3 pt-4 bg-gradient-to-t from-white via-white/95 to-transparent">
+      <div className="fixed bottom-[72px] left-0 right-0 px-4 pb-3 pt-5 bg-gradient-to-t from-[#f4f4f8] via-[#f4f4f8]/95 to-transparent">
         <div className="flex gap-3 max-w-md mx-auto">
           {/* Map button */}
-          <button className="flex-none flex items-center gap-2 px-4 py-3.5 rounded-2xl bg-gray-100 border border-gray-200 text-gray-700 text-sm font-semibold active:scale-95 transition-transform">
-            <Icon name="MapPin" size={16} className="text-[#06B6D4]" />
+          <button className="flex-none flex items-center gap-2 px-4 py-3.5 rounded-2xl bg-white border border-gray-200 shadow-sm text-gray-700 text-sm font-semibold active:scale-95 transition-transform">
+            <Icon name="MapPin" size={16} className="text-cyan-500" />
             На карте
           </button>
 
@@ -259,8 +276,8 @@ function AttractionDetail({
             disabled={!canBook}
             className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-bold transition-all active:scale-95 ${
               canBook
-                ? "gradient-primary text-white shadow-lg shadow-purple-500/30"
-                : "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200"
+                ? "bg-gradient-to-r from-violet-500 to-pink-500 text-white shadow-lg shadow-violet-200"
+                : "bg-gray-100 text-gray-400 cursor-not-allowed"
             }`}
           >
             <Icon name="CalendarCheck" size={16} />
@@ -303,10 +320,10 @@ function AttractionsListScreen({
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 <div
-                  className={`absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full ${status.bg} border ${status.border}`}
+                  className={`absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full ${status.bg}`}
                 >
-                  <div className={`w-1.5 h-1.5 rounded-full ${status.dot}`} />
-                  <span className={`text-[11px] font-semibold ${status.color}`}>
+                  <Icon name={status.icon} size={11} className="text-white" />
+                  <span className="text-[11px] font-bold text-white">
                     {status.label}
                   </span>
                 </div>

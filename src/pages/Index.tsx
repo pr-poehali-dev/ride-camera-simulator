@@ -346,7 +346,7 @@ function HomeScreen({ onNavigate }: { onNavigate: (tab: ActiveTab) => void }) {
             Добро пожаловать!
           </p>
           <h1 className="font-display text-3xl font-bold text-white leading-tight">
-            ParkGo
+            Фан Парк
           </h1>
           <p className="text-white/50 mt-2 text-sm">
             Парк развлечений · Сегодня работает до 22:00

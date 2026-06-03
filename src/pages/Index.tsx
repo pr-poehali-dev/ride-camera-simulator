@@ -57,24 +57,24 @@ const attractions: Attraction[] = [
 const statusConfig = {
   working: {
     label: "Работает",
-    color: "text-green-400",
-    bg: "bg-green-400/15",
-    dot: "bg-green-400",
-    border: "border-green-400/30",
+    color: "text-green-600",
+    bg: "bg-green-50",
+    dot: "bg-green-500",
+    border: "border-green-200",
   },
   maintenance: {
     label: "На техобслуживании",
-    color: "text-yellow-400",
-    bg: "bg-yellow-400/15",
-    dot: "bg-yellow-400",
-    border: "border-yellow-400/30",
+    color: "text-yellow-600",
+    bg: "bg-yellow-50",
+    dot: "bg-yellow-500",
+    border: "border-yellow-200",
   },
   closed: {
     label: "Закрыт",
-    color: "text-red-400",
-    bg: "bg-red-400/15",
-    dot: "bg-red-400",
-    border: "border-red-400/30",
+    color: "text-red-500",
+    bg: "bg-red-50",
+    dot: "bg-red-500",
+    border: "border-red-200",
   },
 };
 
@@ -110,7 +110,7 @@ function AttractionDetail({
           className="w-full h-full object-cover"
         />
         {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a12] via-[#0a0a12]/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
         {/* Back button */}
         <button
@@ -148,12 +148,12 @@ function AttractionDetail({
             />
           </div>
           <div>
-            <p className="text-xs text-white/50 mb-0.5">Статус</p>
+            <p className="text-xs text-gray-400 mb-0.5">Статус</p>
             <p className={`font-semibold text-sm ${status.color}`}>
               {status.label}
               {attraction.status === "maintenance" &&
                 attraction.maintenanceUntil && (
-                  <span className="text-white/60 font-normal">
+                  <span className="text-gray-400 font-normal">
                     {" "}до {attraction.maintenanceUntil}
                   </span>
                 )}
@@ -163,13 +163,13 @@ function AttractionDetail({
 
         {/* Wait time — only when working */}
         {isWorking && (
-          <div className="flex items-center gap-3 p-4 rounded-2xl bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 animate-scale-in delay-100">
-            <div className="w-8 h-8 rounded-full bg-[#8B5CF6]/20 flex items-center justify-center">
+          <div className="flex items-center gap-3 p-4 rounded-2xl bg-violet-50 border border-violet-200 animate-scale-in delay-100">
+            <div className="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center">
               <Icon name="Clock" size={16} className="text-[#8B5CF6]" />
             </div>
             <div>
-              <p className="text-xs text-white/50 mb-0.5">Время ожидания</p>
-              <p className="font-semibold text-sm text-white">
+              <p className="text-xs text-gray-400 mb-0.5">Время ожидания</p>
+              <p className="font-semibold text-sm text-gray-800">
                 около {attraction.waitTime} мин
               </p>
             </div>
@@ -177,25 +177,25 @@ function AttractionDetail({
         )}
 
         {/* Restrictions */}
-        <div className="p-4 rounded-2xl bg-white/5 border border-white/8 animate-scale-in delay-200">
-          <p className="text-xs text-white/50 mb-3 font-medium uppercase tracking-wider">
+        <div className="p-4 rounded-2xl bg-white border border-gray-100 shadow-sm animate-scale-in delay-200">
+          <p className="text-xs text-gray-400 mb-3 font-medium uppercase tracking-wider">
             Ограничения
           </p>
           <div className="flex gap-3">
-            <div className="flex-1 flex items-center gap-2.5 p-3 bg-white/5 rounded-xl">
+            <div className="flex-1 flex items-center gap-2.5 p-3 bg-gray-50 rounded-xl">
               <span className="text-xl">📏</span>
               <div>
-                <p className="text-[11px] text-white/50">Рост</p>
-                <p className="text-sm font-semibold text-white">
+                <p className="text-[11px] text-gray-400">Рост</p>
+                <p className="text-sm font-semibold text-gray-800">
                   от {attraction.minHeight} см
                 </p>
               </div>
             </div>
-            <div className="flex-1 flex items-center gap-2.5 p-3 bg-white/5 rounded-xl">
+            <div className="flex-1 flex items-center gap-2.5 p-3 bg-gray-50 rounded-xl">
               <span className="text-xl">⚖️</span>
               <div>
-                <p className="text-[11px] text-white/50">Вес</p>
-                <p className="text-sm font-semibold text-white">
+                <p className="text-[11px] text-gray-400">Вес</p>
+                <p className="text-sm font-semibold text-gray-800">
                   до {attraction.maxWeight} кг
                 </p>
               </div>
@@ -207,31 +207,31 @@ function AttractionDetail({
         <div
           className={`p-4 rounded-2xl border animate-scale-in delay-300 ${
             isPremium
-              ? "bg-gradient-to-r from-[#8B5CF6]/15 to-[#EC4899]/15 border-[#8B5CF6]/30"
-              : "bg-white/5 border-white/10"
+              ? "bg-gradient-to-r from-violet-50 to-pink-50 border-violet-200"
+              : "bg-white border-gray-100 shadow-sm"
           }`}
         >
           <div className="flex items-start gap-3">
             <div
               className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                isPremium ? "bg-[#8B5CF6]/25" : "bg-white/10"
+                isPremium ? "bg-violet-100" : "bg-gray-100"
               }`}
             >
               <Icon
                 name={isPremium ? "Crown" : "Ticket"}
                 size={16}
-                className={isPremium ? "text-[#8B5CF6]" : "text-white/50"}
+                className={isPremium ? "text-[#8B5CF6]" : "text-gray-400"}
               />
             </div>
             <div className="flex-1">
-              <p className="text-xs text-white/50 mb-0.5">Доступность</p>
+              <p className="text-xs text-gray-400 mb-0.5">Доступность</p>
               {isPremium ? (
                 <p className="text-sm font-semibold text-[#8B5CF6]">
                   Входит в ваш Premium-билет
                 </p>
               ) : (
                 <div>
-                  <p className="text-sm font-semibold text-white/70">
+                  <p className="text-sm font-semibold text-gray-500">
                     Не входит в ваш билет
                   </p>
                   <button className="mt-2 text-xs font-semibold text-[#F97316] flex items-center gap-1 active:opacity-70 transition-opacity">
@@ -246,10 +246,10 @@ function AttractionDetail({
       </div>
 
       {/* Bottom action buttons */}
-      <div className="fixed bottom-[72px] left-0 right-0 px-4 pb-3 pt-4 bg-gradient-to-t from-[#0a0a12] via-[#0a0a12]/95 to-transparent">
+      <div className="fixed bottom-[72px] left-0 right-0 px-4 pb-3 pt-4 bg-gradient-to-t from-white via-white/95 to-transparent">
         <div className="flex gap-3 max-w-md mx-auto">
           {/* Map button */}
-          <button className="flex-none flex items-center gap-2 px-4 py-3.5 rounded-2xl bg-white/8 border border-white/10 text-white text-sm font-semibold active:scale-95 transition-transform">
+          <button className="flex-none flex items-center gap-2 px-4 py-3.5 rounded-2xl bg-gray-100 border border-gray-200 text-gray-700 text-sm font-semibold active:scale-95 transition-transform">
             <Icon name="MapPin" size={16} className="text-[#06B6D4]" />
             На карте
           </button>
@@ -260,7 +260,7 @@ function AttractionDetail({
             className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-bold transition-all active:scale-95 ${
               canBook
                 ? "gradient-primary text-white shadow-lg shadow-purple-500/30"
-                : "bg-white/8 text-white/30 cursor-not-allowed border border-white/10"
+                : "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200"
             }`}
           >
             <Icon name="CalendarCheck" size={16} />
@@ -280,10 +280,10 @@ function AttractionsListScreen({
   return (
     <div className="flex flex-col h-full">
       <div className="px-4 pt-6 pb-3">
-        <h2 className="font-display text-xl font-bold text-white">
+        <h2 className="font-display text-xl font-bold text-gray-900">
           Аттракционы
         </h2>
-        <p className="text-sm text-white/50 mt-1">Сегодня открыто 12 из 15</p>
+        <p className="text-sm text-gray-400 mt-1">Сегодня открыто 12 из 15</p>
       </div>
       <div className="flex-1 overflow-y-auto px-4 pb-28 space-y-3">
         {attractions.map((a, i) => {
@@ -292,7 +292,7 @@ function AttractionsListScreen({
             <button
               key={a.id}
               onClick={() => onSelect(a)}
-              className={`w-full text-left rounded-2xl overflow-hidden bg-[#111118] border border-white/8 active:scale-98 transition-transform animate-fade-in`}
+              className={`w-full text-left rounded-2xl overflow-hidden bg-white border border-gray-100 shadow-sm active:scale-98 transition-transform animate-fade-in`}
               style={{ animationDelay: `${i * 0.08}s`, opacity: 0 }}
             >
               <div className="relative h-36 overflow-hidden">
@@ -301,7 +301,7 @@ function AttractionsListScreen({
                   alt={a.name}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#111118] via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 <div
                   className={`absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full ${status.bg} border ${status.border}`}
                 >
@@ -313,14 +313,14 @@ function AttractionsListScreen({
               </div>
               <div className="p-3 flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-white text-sm">{a.name}</p>
-                  <p className="text-xs text-white/40 mt-0.5">
+                  <p className="font-semibold text-gray-900 text-sm">{a.name}</p>
+                  <p className="text-xs text-gray-400 mt-0.5">
                     {a.category} · рост от {a.minHeight} см
                   </p>
                 </div>
                 {a.status === "working" && (
                   <div className="text-right">
-                    <p className="text-xs text-white/40">Ожидание</p>
+                    <p className="text-xs text-gray-400">Ожидание</p>
                     <p className="text-sm font-bold text-[#8B5CF6]">
                       ~{a.waitTime} мин
                     </p>
@@ -345,10 +345,10 @@ function HomeScreen({ onNavigate }: { onNavigate: (tab: ActiveTab) => void }) {
           <p className="text-[#8B5CF6] text-sm font-semibold mb-1">
             Добро пожаловать!
           </p>
-          <h1 className="font-display text-3xl font-bold text-white leading-tight">
+          <h1 className="font-display text-3xl font-bold text-gray-900 leading-tight">
             Фан Парк
           </h1>
-          <p className="text-white/50 mt-2 text-sm">
+          <p className="text-gray-400 mt-2 text-sm">
             Парк развлечений · Сегодня работает до 22:00
           </p>
         </div>
@@ -363,19 +363,19 @@ function HomeScreen({ onNavigate }: { onNavigate: (tab: ActiveTab) => void }) {
         ].map((s, i) => (
           <div
             key={s.label}
-            className="p-3 rounded-2xl bg-white/5 border border-white/8 animate-scale-in"
+            className="p-3 rounded-2xl bg-white border border-gray-100 shadow-sm animate-scale-in"
             style={{ animationDelay: `${i * 0.08}s`, opacity: 0 }}
           >
             <Icon name={s.icon} size={18} style={{ color: s.color }} />
-            <p className="font-bold text-white text-lg mt-1">{s.value}</p>
-            <p className="text-[11px] text-white/40">{s.label}</p>
+            <p className="font-bold text-gray-900 text-lg mt-1">{s.value}</p>
+            <p className="text-[11px] text-gray-400">{s.label}</p>
           </div>
         ))}
       </div>
 
       {/* Popular attraction */}
       <div className="px-4 mb-3">
-        <p className="text-xs text-white/40 uppercase tracking-wider font-semibold mb-2.5">
+        <p className="text-xs text-gray-400 uppercase tracking-wider font-semibold mb-2.5">
           Популярное
         </p>
         <button
@@ -405,22 +405,22 @@ function HomeScreen({ onNavigate }: { onNavigate: (tab: ActiveTab) => void }) {
 
       {/* Ticket info */}
       <div className="px-4">
-        <div className="p-4 rounded-2xl bg-gradient-to-r from-[#8B5CF6]/15 to-[#EC4899]/15 border border-[#8B5CF6]/25">
+        <div className="p-4 rounded-2xl bg-gradient-to-r from-violet-50 to-pink-50 border border-violet-200">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#8B5CF6] to-[#EC4899] flex items-center justify-center">
                 <Icon name="Crown" size={18} className="text-white" />
               </div>
               <div>
-                <p className="font-bold text-white text-sm">Premium-билет</p>
-                <p className="text-xs text-white/50">Доступны все аттракционы</p>
+                <p className="font-bold text-gray-900 text-sm">Premium-билет</p>
+                <p className="text-xs text-gray-400">Доступны все аттракционы</p>
               </div>
             </div>
             <button
               onClick={() => onNavigate("tickets")}
-              className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center"
+              className="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center"
             >
-              <Icon name="ChevronRight" size={16} className="text-white/60" />
+              <Icon name="ChevronRight" size={16} className="text-gray-400" />
             </button>
           </div>
         </div>
@@ -432,12 +432,12 @@ function HomeScreen({ onNavigate }: { onNavigate: (tab: ActiveTab) => void }) {
 function PlaceholderScreen({ title, icon }: { title: string; icon: string }) {
   return (
     <div className="flex flex-col items-center justify-center h-full gap-4 animate-fade-in">
-      <div className="w-20 h-20 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center animate-float">
-        <Icon name={icon} size={36} className="text-white/30" />
+      <div className="w-20 h-20 rounded-3xl bg-white border border-gray-100 shadow-sm flex items-center justify-center animate-float">
+        <Icon name={icon} size={36} className="text-gray-300" />
       </div>
       <div className="text-center">
-        <p className="font-display font-bold text-white text-xl">{title}</p>
-        <p className="text-white/40 text-sm mt-1">Раздел в разработке</p>
+        <p className="font-display font-bold text-gray-900 text-xl">{title}</p>
+        <p className="text-gray-400 text-sm mt-1">Раздел в разработке</p>
       </div>
     </div>
   );
@@ -462,7 +462,7 @@ const Index = () => {
     activeTab === "attractions" && selectedAttraction;
 
   return (
-    <div className="min-h-screen bg-[#0a0a12] flex justify-center">
+    <div className="min-h-screen bg-[#f4f4f8] flex justify-center">
       <div className="w-full max-w-md relative flex flex-col h-screen overflow-hidden">
         {/* Main content */}
         <div className="flex-1 overflow-hidden relative">
@@ -491,7 +491,7 @@ const Index = () => {
         </div>
 
         {/* Bottom Navigation */}
-        <div className="absolute bottom-0 left-0 right-0 h-[72px] glass-dark border-t border-white/8 flex items-center px-1">
+        <div className="absolute bottom-0 left-0 right-0 h-[72px] bg-white border-t border-gray-100 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] flex items-center px-1">
           {navTabs.map((tab) => {
             const isActive =
               activeTab === tab.id && !showAttractionDetail;
@@ -503,7 +503,7 @@ const Index = () => {
                   setActiveTab(tab.id);
                 }}
                 className={`flex-1 flex flex-col items-center gap-1 py-2 transition-all active:scale-90 ${
-                  isActive ? "text-[#8B5CF6]" : "text-white/35"
+                  isActive ? "text-[#8B5CF6]" : "text-gray-400"
                 }`}
               >
                 <div
@@ -518,7 +518,7 @@ const Index = () => {
                 </div>
                 <span
                   className={`text-[10px] font-medium transition-all ${
-                    isActive ? "text-[#8B5CF6]" : "text-white/35"
+                    isActive ? "text-[#8B5CF6]" : "text-gray-400"
                   }`}
                 >
                   {tab.label}
